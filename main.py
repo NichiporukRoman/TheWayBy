@@ -1,5 +1,6 @@
 import telebot
 
+
 # Создание экземпляра бота с указанием токена вашего бота
 bot = telebot.TeleBot('6626087162:AAE5JpTAqgg6RykfG2YVdAZYQwRAxvqoKYM')
 
