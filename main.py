@@ -1,5 +1,10 @@
+import pygsheets
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+from DataManage import manageDataCreate
+
+gc = pygsheets.authorize(client_secret='D:/client_secret_75246131725-4k0v9ih1jsipvun663mtc0c5u3q4eqdo.apps.googleusercontent.com.json')
 
 from keyboards import start_inline_keyboard, category_inline_keyboard, regions_history_inline_keyboard, \
     regions_nature_inline_keyboard, regions_culture_inline_keyboard, regions_with_kids_inline_keyboard, \
@@ -14,6 +19,8 @@ bot = telebot.TeleBot('6626087162:AAE5JpTAqgg6RykfG2YVdAZYQwRAxvqoKYM')
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     user_name = message.from_user.username
+    user_id = message.from_user.id
+    manageDataCreate(user_id)
     bot.send_message(message.chat.id,
                      hello_string_part_one + '@' + user_name + hello_string_part_two,
                      parse_mode='Markdown',
