@@ -46,7 +46,7 @@ def callback_query(call):
 
     elif call.data == "history":
         bot.answer_callback_query(call.id, "История")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "history")
         bot.send_message(call.message.chat.id,
                          category_string,
@@ -54,7 +54,7 @@ def callback_query(call):
                          reply_markup=regions_inline_keyboard())
     elif call.data == "nature":
         bot.answer_callback_query(call.id, "Природа")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "nature")
         bot.send_message(call.message.chat.id,
                          category_string,
@@ -62,7 +62,7 @@ def callback_query(call):
                          reply_markup=regions_inline_keyboard())
     elif call.data == "culture":
         bot.answer_callback_query(call.id, "Культура")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "culture")
         bot.send_message(call.message.chat.id,
                          category_string,
@@ -70,7 +70,7 @@ def callback_query(call):
                          reply_markup=regions_inline_keyboard())
     elif call.data == "with_kids":
         bot.answer_callback_query(call.id, "С детьми")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "with_kids")
         bot.send_message(call.message.chat.id,
                          category_string,
@@ -78,7 +78,7 @@ def callback_query(call):
                          reply_markup=regions_inline_keyboard())
     elif call.data == "sport":
         bot.answer_callback_query(call.id, "Спорт")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "sport")
         bot.send_message(call.message.chat.id,
                          category_string,
@@ -86,38 +86,38 @@ def callback_query(call):
                          reply_markup=regions_inline_keyboard())
     elif call.data == "architecture":
         bot.answer_callback_query(call.id, "Архитектура")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataCategory(user_id, "architecture")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
 
-# Обработка клавиатуры category_inline_keyboard
+# Обработка клавиатуры region_inline_keyboard
 
     elif call.data == "minsk":
         bot.answer_callback_query(call.id, "Около Минска")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "minsk")
     elif call.data == "minsk_region":
         bot.answer_callback_query(call.id, "Минская область")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "minsk_region")
     elif call.data == "brest_region":
         bot.answer_callback_query(call.id, "Брестская область")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "brest_region")
     elif call.data == "gomel_region":
         bot.answer_callback_query(call.id, "Гомельская область")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "gomel_region")
     elif call.data == "mogilev_region":
         bot.answer_callback_query(call.id, "Могилевская область")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "mogilev_region")
     elif call.data == "grodno_region":
         bot.answer_callback_query(call.id, "Гродненская область")
-        user_id = call.message.from_user.id
+        user_id = call.from_user.id
         manageDataRegion(user_id, "grodno_region")
 
 # @bot.message_handler(func=lambda message: True)
