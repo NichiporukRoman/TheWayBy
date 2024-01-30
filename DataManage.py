@@ -34,6 +34,7 @@ def manageDataRegion(id, region):
     tree = ET.ElementTree(root)
     tree.write('Data/' + str(id) + '.xml')
 
+
 def manageDataNum(id, num):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
@@ -52,6 +53,7 @@ def manageDataNum(id, num):
     region_new.text = region_old
     tree = ET.ElementTree(root)
     tree.write('Data/' + str(id) + '.xml')
+
 
 def manageDataCreate(id):
     root = ET.Element('root')

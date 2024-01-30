@@ -2,7 +2,7 @@ from pathlib import Path
 
 import telebot
 from telebot import types
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+from telebot.types import InlineKeyboardButton
 
 from DataManage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
     manageDataNum
@@ -38,14 +38,20 @@ def handle_button(message):
     category = getCategory(user_id)
     region = getRegion(user_id)
     num = getNum(user_id)
+
     file = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/description.txt', 'r', encoding='utf-8')
     text = file.read()
     file.close()
     photo = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/picture.png', 'rb')
+    file = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/link.txt', 'r')
+    link = file.read()
+    file.close()
     bot.send_photo(chat_id=message.chat.id,
                    photo=photo,
-                   caption='text',
-                   reply_markup=way_keyboard())
+                   parse_mode='Markdown',
+                   caption=text,
+                   reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
+    photo.close()
 
 # Обработка команды /review
 @bot.message_handler(commands=['review'])
@@ -146,13 +152,9 @@ def callback_query(call):
         manageDataRegion(user_id, "grodno_region")
 
     elif call.data == "add_to_like":
-        bot.answer_callback_query(call.id, "Гродненская область")
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-
     elif call.data == "more":
-        bot.answer_callback_query(call.id, "Гродненская область")
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-
     elif call.data == "next":
         user_id = call.from_user.id
         category = getCategory(user_id)
@@ -161,17 +163,21 @@ def callback_query(call):
         manageDataNum(user_id, str(int(num)+1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)+1)
         if Path(sting_text).exists():
+            file = open(sting_text + '/link.txt', 'r')
+            link = file.read()
+            file.close()
             file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
             text = file.read()
             file.close()
             photo = open(sting_text + '/picture.png', 'rb')
             bot.send_photo(chat_id=call.message.chat.id,
                            photo=photo,
+                           parse_mode='Markdown',
                            caption=text,
-                           reply_markup=way_keyboard())
+                           reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
+            photo.close()
         else:
             bot.answer_callback_query(call.id, "Больше маршрутов нет")
-
     elif call.data == "previous":
         user_id = call.from_user.id
         category = getCategory(user_id)
@@ -180,14 +186,19 @@ def callback_query(call):
         manageDataNum(user_id, str(int(num)-1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)-1)
         if Path(sting_text).exists():
+            file = open(sting_text + '/link.txt', 'r')
+            link = file.read()
+            file.close()
             file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
             text = file.read()
             file.close()
             photo = open(sting_text + '/picture.png', 'rb')
             bot.send_photo(chat_id=call.message.chat.id,
                            photo=photo,
+                           parse_mode='Markdown',
                            caption=text,
-                           reply_markup=way_keyboard())
+                           reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
+            photo.close()
         else:
             bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
 

@@ -33,11 +33,12 @@ def regions_inline_keyboard():
     return regions_history_markup
 
 
-def way_keyboard():
+def way_keyboard(to_way):
     category_markup = InlineKeyboardMarkup()
     category_markup.row_width = 2
     category_markup.add(InlineKeyboardButton("В Избранное", callback_data="add_to_like"),
                         InlineKeyboardButton("Подробнее", callback_data="more"),
+                        InlineKeyboardButton("Предыдущий маршрут", callback_data="previous"),
                         InlineKeyboardButton("Следующий маршрут", callback_data="next"),
-                        InlineKeyboardButton("Предыдущий маршрут", callback_data="previous"))
+                        to_way)
     return category_markup
