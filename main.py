@@ -38,11 +38,13 @@ def handle_button(message):
     category = getCategory(user_id)
     region = getRegion(user_id)
     num = getNum(user_id)
-
+    file = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/description.txt', 'r', encoding='utf-8')
+    text = file.read()
+    file.close()
     photo = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/picture.png', 'rb')
     bot.send_photo(chat_id=message.chat.id,
                    photo=photo,
-                   caption='Это картинка с текстом',
+                   caption='text',
                    reply_markup=way_keyboard())
 
 # Обработка команды /review
@@ -159,10 +161,13 @@ def callback_query(call):
         manageDataNum(user_id, str(int(num)+1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)+1)
         if Path(sting_text).exists():
+            file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
+            text = file.read()
+            file.close()
             photo = open(sting_text + '/picture.png', 'rb')
             bot.send_photo(chat_id=call.message.chat.id,
                            photo=photo,
-                           caption='Это картинка с текстом',
+                           caption=text,
                            reply_markup=way_keyboard())
         else:
             bot.answer_callback_query(call.id, "Больше маршрутов нет")
@@ -175,10 +180,13 @@ def callback_query(call):
         manageDataNum(user_id, str(int(num)-1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)-1)
         if Path(sting_text).exists():
+            file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
+            text = file.read()
+            file.close()
             photo = open(sting_text + '/picture.png', 'rb')
             bot.send_photo(chat_id=call.message.chat.id,
                            photo=photo,
-                           caption='Это картинка с текстом',
+                           caption=text,
                            reply_markup=way_keyboard())
         else:
             bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
