@@ -1,14 +1,9 @@
-import pygsheets
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from DataManage import manageDataCreate
+from DataManage import manageDataCreate, manageDataCategory
 
-gc = pygsheets.authorize(client_secret='D:/client_secret_75246131725-4k0v9ih1jsipvun663mtc0c5u3q4eqdo.apps.googleusercontent.com.json')
-
-from keyboards import start_inline_keyboard, category_inline_keyboard, regions_history_inline_keyboard, \
-    regions_nature_inline_keyboard, regions_culture_inline_keyboard, regions_with_kids_inline_keyboard, \
-    regions_sport_inline_keyboard, regions_architecture_inline_keyboard
+from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard
 from strings import hello_string_part_one, hello_string_part_two, category_string
 
 # Создание экземпляра бота с указанием токена вашего бота
@@ -51,40 +46,52 @@ def callback_query(call):
 
     elif call.data == "history":
         bot.answer_callback_query(call.id, "История")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "history")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_history_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
     elif call.data == "nature":
         bot.answer_callback_query(call.id, "Природа")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "nature")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_nature_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
     elif call.data == "culture":
         bot.answer_callback_query(call.id, "Культура")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "culture")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_culture_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
     elif call.data == "with_kids":
         bot.answer_callback_query(call.id, "С детьми")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "with_kids")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_with_kids_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
     elif call.data == "sport":
         bot.answer_callback_query(call.id, "Спорт")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "sport")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_sport_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
     elif call.data == "architecture":
         bot.answer_callback_query(call.id, "Архитектура")
+        user_id = call.message.from_user.id
+        manageDataCategory(user_id, "architecture")
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
-                         reply_markup=regions_architecture_inline_keyboard())
+                         reply_markup=regions_inline_keyboard())
 # Обработка клавиатуры category_inline_keyboard
 
 
