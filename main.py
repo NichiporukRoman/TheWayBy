@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from DataManage import manageDataCreate, manageDataCategory
+from DataManage import manageDataCreate, manageDataCategory, manageDataRegion
 
 from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard
 from strings import hello_string_part_one, hello_string_part_two, category_string
@@ -92,8 +92,33 @@ def callback_query(call):
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
+
 # Обработка клавиатуры category_inline_keyboard
 
+    elif call.data == "minsk":
+        bot.answer_callback_query(call.id, "Около Минска")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "minsk")
+    elif call.data == "minsk_region":
+        bot.answer_callback_query(call.id, "Минская область")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "minsk_region")
+    elif call.data == "brest_region":
+        bot.answer_callback_query(call.id, "Брестская область")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "brest_region")
+    elif call.data == "gomel_region":
+        bot.answer_callback_query(call.id, "Гомельская область")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "gomel_region")
+    elif call.data == "mogilev_region":
+        bot.answer_callback_query(call.id, "Могилевская область")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "mogilev_region")
+    elif call.data == "grodno_region":
+        bot.answer_callback_query(call.id, "Гродненская область")
+        user_id = call.message.from_user.id
+        manageDataRegion(user_id, "grodno_region")
 
 # @bot.message_handler(func=lambda message: True)
 # def message_handler(message):
