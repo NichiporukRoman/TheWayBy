@@ -33,6 +33,18 @@ def regions_inline_keyboard():
     return regions_history_markup
 
 
+def organized_inline_keyboard():
+    regions_history_markup = InlineKeyboardMarkup()
+    regions_history_markup.row_width = 2
+    regions_history_markup.add(InlineKeyboardButton("Автобусные туры", callback_data="buss"),
+                               InlineKeyboardButton("Сплавы", callback_data="boats"),
+                               InlineKeyboardButton("Кемпинг", callback_data="camping"),
+                               InlineKeyboardButton("Пешие походы", callback_data="foot"),
+                               InlineKeyboardButton("Детские лагеря", callback_data="kids_camps"),
+                               InlineKeyboardButton("Что-то ещё", callback_data="something_else"))
+    return regions_history_markup
+
+
 def way_keyboard(to_way):
     category_markup = InlineKeyboardMarkup()
     category_markup.row_width = 2

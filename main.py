@@ -7,8 +7,9 @@ from telebot.types import InlineKeyboardButton
 from DataManage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
     manageDataNum
 
-from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard
-from strings import hello_string_part_one, hello_string_part_two, category_string
+from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard, \
+    organized_inline_keyboard
+from strings import hello_string_part_one, hello_string_part_two, category_string, category_string_org
 
 # Создание экземпляра бота с указанием токена вашего бота
 bot = telebot.TeleBot('6626087162:AAE5JpTAqgg6RykfG2YVdAZYQwRAxvqoKYM')
@@ -71,7 +72,11 @@ def callback_query(call):
                          parse_mode='Markdown',
                          reply_markup=category_inline_keyboard())
     elif call.data == "organized_travelling":
-        bot.answer_callback_query(call.id, "В следующих обновлениях")
+        bot.answer_callback_query(call.id, "Переходим")
+        bot.send_message(call.message.chat.id,
+                         category_string_org,
+                         parse_mode='Markdown',
+                         reply_markup=organized_inline_keyboard())
 
 # Обработка клавиатуры category_inline_keyboard
 
@@ -160,9 +165,9 @@ def callback_query(call):
         category = getCategory(user_id)
         region = getRegion(user_id)
         num = getNum(user_id)
-        manageDataNum(user_id, str(int(num)+1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)+1)
         if Path(sting_text).exists():
+            manageDataNum(user_id, str(int(num)+1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
             file.close()
@@ -183,9 +188,9 @@ def callback_query(call):
         category = getCategory(user_id)
         region = getRegion(user_id)
         num = getNum(user_id)
-        manageDataNum(user_id, str(int(num)-1))
         sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)-1)
         if Path(sting_text).exists():
+            manageDataNum(user_id, str(int(num)-1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
             file.close()
@@ -201,6 +206,18 @@ def callback_query(call):
             photo.close()
         else:
             bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
+    elif call.data == "buss":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+    elif call.data == "boats":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+    elif call.data == "camping":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+    elif call.data == "foot":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+    elif call.data == "kids_camps":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+    elif call.data == "something_else":
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
 
 
 # Запуск бота
