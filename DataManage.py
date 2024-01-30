@@ -5,12 +5,13 @@ def manageDataCategory(id, category):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
 
-    region_old = root.find('region').text
+    region_old = root.find('self_travelling').find('region').text
 
     root = ET.Element('root')
-    category_new = ET.SubElement(root, 'category')
-    region_new = ET.SubElement(root, 'region')
-    num_new = ET.SubElement(root, 'num')
+    self_travelling = ET.SubElement(root, 'self_travelling')
+    category_new = ET.SubElement(self_travelling, 'category')
+    region_new = ET.SubElement(self_travelling, 'region')
+    num_new = ET.SubElement(self_travelling, 'num')
     num_new.text = '1'
     category_new.text = category
     region_new.text = region_old
@@ -22,12 +23,13 @@ def manageDataRegion(id, region):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
 
-    category_old = root.find('category').text
+    category_old = root.find('self_travelling').find('category').text
 
     root = ET.Element('root')
-    category_new = ET.SubElement(root, 'category')
-    region_new = ET.SubElement(root, 'region')
-    num_new = ET.SubElement(root, 'num')
+    self_travelling = ET.SubElement(root, 'self_travelling')
+    category_new = ET.SubElement(self_travelling, 'category')
+    region_new = ET.SubElement(self_travelling, 'region')
+    num_new = ET.SubElement(self_travelling, 'num')
     num_new.text = '1'
     category_new.text = category_old
     region_new.text = region
@@ -39,14 +41,14 @@ def manageDataNum(id, num):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
 
-    category_old = root.find('category').text
-    region_old = root.find('region').text
+    category_old = root.find('self_travelling').find('category').text
+    region_old = root.find('self_travelling').find('region').text
 
     root = ET.Element('root')
-    category_new = ET.SubElement(root, 'category')
-    region_new = ET.SubElement(root, 'region')
-
-    num_new = ET.SubElement(root, 'num')
+    self_travelling = ET.SubElement(root, 'self_travelling')
+    category_new = ET.SubElement(self_travelling, 'category')
+    region_new = ET.SubElement(self_travelling, 'region')
+    num_new = ET.SubElement(self_travelling, 'num')
     num_new.text = num
 
     category_new.text = category_old
@@ -57,9 +59,10 @@ def manageDataNum(id, num):
 
 def manageDataCreate(id):
     root = ET.Element('root')
-    category_new = ET.SubElement(root, 'category')
-    region_new = ET.SubElement(root, 'region')
-    num_new = ET.SubElement(root, 'num')
+    self_travelling = ET.SubElement(root, 'self_travelling')
+    category_new = ET.SubElement(self_travelling, 'category')
+    region_new = ET.SubElement(self_travelling, 'region')
+    num_new = ET.SubElement(self_travelling, 'num')
     category_new.text = 'history'
     region_new.text = 'minsk'
     num_new.text = '1'
@@ -70,19 +73,19 @@ def manageDataCreate(id):
 def getCategory(id):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
-    category_old = root.find('category').text
+    category_old = root.find('self_travelling').find('category').text
     return category_old
 
 
 def getRegion(id):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
-    region_old = root.find('region').text
+    region_old = root.find('self_travelling').find('region').text
     return region_old
 
 
 def getNum(id):
     tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
     root = tree.getroot()
-    num_old = root.find('num').text
+    num_old = root.find('self_travelling').find('num').text
     return num_old
