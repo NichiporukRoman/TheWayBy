@@ -1,9 +1,13 @@
+from pathlib import Path
+
 import telebot
+from telebot import types
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from DataManage import manageDataCreate, manageDataCategory, manageDataRegion
+from DataManage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
+    manageDataNum
 
-from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard
+from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard
 from strings import hello_string_part_one, hello_string_part_two, category_string
 
 # Создание экземпляра бота с указанием токена вашего бота
@@ -16,11 +20,30 @@ def handle_start(message):
     user_name = message.from_user.username
     user_id = message.from_user.id
     manageDataCreate(user_id)
+    keyboard = types.ReplyKeyboardMarkup(row_width=1)
+    show_ways_button = types.KeyboardButton('Показать маршруты')
+    keyboard.add(show_ways_button)
+
+    # Отправляем сообщение с клавиатурой
+    bot.send_message(message.chat.id,'Загружаемся', reply_markup=keyboard)
     bot.send_message(message.chat.id,
                      hello_string_part_one + '@' + user_name + hello_string_part_two,
                      parse_mode='Markdown',
                      reply_markup=start_inline_keyboard())
 
+# Обработчик нажатия на кнопку
+@bot.message_handler(func=lambda message: message.text == 'Показать маршруты')
+def handle_button(message):
+    user_id = message.from_user.id
+    category = getCategory(user_id)
+    region = getRegion(user_id)
+    num = getNum(user_id)
+
+    photo = open('TravelWays/SelfTravelling/' + category + '/' + region + '/' + num + '/picture.png', 'rb')
+    bot.send_photo(chat_id=message.chat.id,
+                   photo=photo,
+                   caption='Это картинка с текстом',
+                   reply_markup=way_keyboard())
 
 # Обработка команды /review
 @bot.message_handler(commands=['review'])
@@ -120,9 +143,46 @@ def callback_query(call):
         user_id = call.from_user.id
         manageDataRegion(user_id, "grodno_region")
 
-# @bot.message_handler(func=lambda message: True)
-# def message_handler(message):
-#       bot.send_message(message.chat.id, "Yes/no?", reply_markup=gen_markup())
+    elif call.data == "add_to_like":
+        bot.answer_callback_query(call.id, "Гродненская область")
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+
+    elif call.data == "more":
+        bot.answer_callback_query(call.id, "Гродненская область")
+        bot.answer_callback_query(call.id, "В следующих обновлениях")
+
+    elif call.data == "next":
+        user_id = call.from_user.id
+        category = getCategory(user_id)
+        region = getRegion(user_id)
+        num = getNum(user_id)
+        manageDataNum(user_id, str(int(num)+1))
+        sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)+1)
+        if Path(sting_text).exists():
+            photo = open(sting_text + '/picture.png', 'rb')
+            bot.send_photo(chat_id=call.message.chat.id,
+                           photo=photo,
+                           caption='Это картинка с текстом',
+                           reply_markup=way_keyboard())
+        else:
+            bot.answer_callback_query(call.id, "Больше маршрутов нет")
+
+    elif call.data == "previous":
+        user_id = call.from_user.id
+        category = getCategory(user_id)
+        region = getRegion(user_id)
+        num = getNum(user_id)
+        manageDataNum(user_id, str(int(num)-1))
+        sting_text = 'TravelWays/SelfTravelling/' + category + '/' + region + '/' + str(int(num)-1)
+        if Path(sting_text).exists():
+            photo = open(sting_text + '/picture.png', 'rb')
+            bot.send_photo(chat_id=call.message.chat.id,
+                           photo=photo,
+                           caption='Это картинка с текстом',
+                           reply_markup=way_keyboard())
+        else:
+            bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
+
 
 # Запуск бота
 bot.infinity_polling()

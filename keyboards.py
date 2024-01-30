@@ -31,3 +31,13 @@ def regions_inline_keyboard():
                                InlineKeyboardButton("Могилёвская обл.", callback_data="mogilev_region"),
                                InlineKeyboardButton("Гродненская обл.", callback_data="grodno_region"))
     return regions_history_markup
+
+
+def way_keyboard():
+    category_markup = InlineKeyboardMarkup()
+    category_markup.row_width = 2
+    category_markup.add(InlineKeyboardButton("В Избранное", callback_data="add_to_like"),
+                        InlineKeyboardButton("Подробнее", callback_data="more"),
+                        InlineKeyboardButton("Следующий маршрут", callback_data="next"),
+                        InlineKeyboardButton("Предыдущий маршрут", callback_data="previous"))
+    return category_markup
