@@ -6,6 +6,7 @@ from telebot.types import InlineKeyboardButton
 
 from DataManage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
     manageDataNum
+from constants import category_tag, category_name
 
 from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard, \
     organized_inline_keyboard
@@ -80,50 +81,109 @@ def callback_query(call):
 
 # Обработка клавиатуры category_inline_keyboard
 
-    elif call.data == "history":
-        bot.answer_callback_query(call.id, "История")
+    elif call.data == category_tag[0]:
+        bot.answer_callback_query(call.id, category_name[0])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "history")
+        manageDataCategory(user_id, category_tag[0])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
-    elif call.data == "nature":
-        bot.answer_callback_query(call.id, "Природа")
+
+    elif call.data == category_tag[1]:
+        bot.answer_callback_query(call.id, category_name[1])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "nature")
+        manageDataCategory(user_id, category_tag[1])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
-    elif call.data == "culture":
-        bot.answer_callback_query(call.id, "Культура")
+
+    elif call.data == category_tag[2]:
+        bot.answer_callback_query(call.id, category_name[2])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "culture")
+        manageDataCategory(user_id, category_tag[2])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
-    elif call.data == "with_kids":
-        bot.answer_callback_query(call.id, "С детьми")
+
+    elif call.data == category_tag[3]:
+        bot.answer_callback_query(call.id, category_name[3])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "with_kids")
+        manageDataCategory(user_id, category_tag[3])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
-    elif call.data == "sport":
-        bot.answer_callback_query(call.id, "Спорт")
+
+    elif call.data == category_tag[4]:
+        bot.answer_callback_query(call.id, category_name[4])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "sport")
+        manageDataCategory(user_id, category_tag[4])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',
                          reply_markup=regions_inline_keyboard())
-    elif call.data == "architecture":
-        bot.answer_callback_query(call.id, "Архитектура")
+
+    elif call.data == category_tag[5]:
+        bot.answer_callback_query(call.id, category_name[5])
         user_id = call.from_user.id
-        manageDataCategory(user_id, "architecture")
+        manageDataCategory(user_id, category_tag[5])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[6]:
+        bot.answer_callback_query(call.id, category_name[6])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[6])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[7]:
+        bot.answer_callback_query(call.id, category_name[7])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[7])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[8]:
+        bot.answer_callback_query(call.id, category_name[8])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[8])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[9]:
+        bot.answer_callback_query(call.id, category_name[9])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[9])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[10]:
+        bot.answer_callback_query(call.id, category_name[10])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[10])
+        bot.send_message(call.message.chat.id,
+                         category_string,
+                         parse_mode='Markdown',
+                         reply_markup=regions_inline_keyboard())
+
+    elif call.data == category_tag[11]:
+        bot.answer_callback_query(call.id, category_name[11])
+        user_id = call.from_user.id
+        manageDataCategory(user_id, category_tag[11])
         bot.send_message(call.message.chat.id,
                          category_string,
                          parse_mode='Markdown',

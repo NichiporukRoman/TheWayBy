@@ -1,5 +1,7 @@
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from constants import category_tag, category_name
+
 
 def start_inline_keyboard():
     markup = InlineKeyboardMarkup()
@@ -12,12 +14,18 @@ def start_inline_keyboard():
 def category_inline_keyboard():
     category_markup = InlineKeyboardMarkup()
     category_markup.row_width = 2
-    category_markup.add(InlineKeyboardButton("История", callback_data="history"),
-                        InlineKeyboardButton("Природа", callback_data="nature"),
-                        InlineKeyboardButton("Культура", callback_data="culture"),
-                        InlineKeyboardButton("С детьми", callback_data="with_kids"),
-                        InlineKeyboardButton("Спорт", callback_data="sport"),
-                        InlineKeyboardButton("Архитектура", callback_data="architecture"))
+    category_markup.add(InlineKeyboardButton(category_name[0], callback_data=category_tag[0]),
+                        InlineKeyboardButton(category_name[1], callback_data=category_tag[1]),
+                        InlineKeyboardButton(category_name[2], callback_data=category_tag[2]),
+                        InlineKeyboardButton(category_name[3], callback_data=category_tag[3]),
+                        InlineKeyboardButton(category_name[4], callback_data=category_tag[4]),
+                        InlineKeyboardButton(category_name[5], callback_data=category_tag[5]),
+                        InlineKeyboardButton(category_name[6], callback_data=category_tag[6]),
+                        InlineKeyboardButton(category_name[7], callback_data=category_tag[7]),
+                        InlineKeyboardButton(category_name[8], callback_data=category_tag[8]),
+                        InlineKeyboardButton(category_name[9], callback_data=category_tag[9]),
+                        InlineKeyboardButton(category_name[10], callback_data=category_tag[10]),
+                        InlineKeyboardButton(category_name[11], callback_data=category_tag[11]))
     return category_markup
 
 
