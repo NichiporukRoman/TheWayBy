@@ -6,7 +6,7 @@ from telebot.types import InlineKeyboardButton
 
 from DataManage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
     manageDataNum
-from constants import category_tag, category_name
+from constants import category_tag, category_name, organized_category_tag
 
 from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard, \
     organized_inline_keyboard
@@ -266,17 +266,17 @@ def callback_query(call):
             photo.close()
         else:
             bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
-    elif call.data == "buss":
+    elif call.data == organized_category_tag[0]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-    elif call.data == "boats":
+    elif call.data == organized_category_tag[1]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-    elif call.data == "camping":
+    elif call.data == organized_category_tag[2]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-    elif call.data == "foot":
+    elif call.data == organized_category_tag[3]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-    elif call.data == "kids_camps":
+    elif call.data == organized_category_tag[4]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
-    elif call.data == "something_else":
+    elif call.data == organized_category_tag[5]:
         bot.answer_callback_query(call.id, "В следующих обновлениях")
 
 
