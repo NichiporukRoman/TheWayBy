@@ -5,3 +5,6 @@ category_string = 'Выбери свои интересы , а мы подбер
 category_string_org = 'Выберите направление поиска.\n\n' +\
                   '*Выберите категорию:*'
 regions_string = 'Выбери районы, в которые тебе хотелось бы поехать:'
+
+path_self = 'TravelWays/SelfTravelling/'
+path_org = 'TravelWays/OrgTravelling/'

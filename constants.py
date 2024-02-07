@@ -19,7 +19,7 @@ organized_category_tag = ["buss", "boats", "camping",
                           "foot", "kids_camps", "something_else"]
 
 organized_category_name = ['Автобусные туры', 'Сплавы', 'Кемпинг',
-                           'Пешие походы', 'Пешие походы', 'Что-то ещё']
+                           'Пешие походы', 'С детьми', 'Что-то ещё']
 
 organized_extra_tag = ["1day", "2days",
                        "overnight", "without_overnight"]

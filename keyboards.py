@@ -1,6 +1,7 @@
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from constants import category_tag, category_name
+from constants import category_tag, category_name, regions_name, regions_tag, organized_category_name, \
+    organized_category_tag
 
 
 def start_inline_keyboard():
@@ -32,24 +33,24 @@ def category_inline_keyboard():
 def regions_inline_keyboard():
     regions_history_markup = InlineKeyboardMarkup()
     regions_history_markup.row_width = 2
-    regions_history_markup.add(InlineKeyboardButton("Рядом с Минском", callback_data="minsk"),
-                               InlineKeyboardButton("Минская обл.", callback_data="minsk_region"),
-                               InlineKeyboardButton("Брестская обл.", callback_data="brest_region"),
-                               InlineKeyboardButton("Гомельская обл.", callback_data="gomel_region"),
-                               InlineKeyboardButton("Могилёвская обл.", callback_data="mogilev_region"),
-                               InlineKeyboardButton("Гродненская обл.", callback_data="grodno_region"))
+    regions_history_markup.add(InlineKeyboardButton(regions_name[0], callback_data=regions_tag[0]),
+                               InlineKeyboardButton(regions_name[1], callback_data=regions_tag[1]),
+                               InlineKeyboardButton(regions_name[2], callback_data=regions_tag[2]),
+                               InlineKeyboardButton(regions_name[3], callback_data=regions_tag[3]),
+                               InlineKeyboardButton(regions_name[4], callback_data=regions_tag[4]),
+                               InlineKeyboardButton(regions_name[5], callback_data=regions_tag[5]))
     return regions_history_markup
 
 
 def organized_inline_keyboard():
     regions_history_markup = InlineKeyboardMarkup()
     regions_history_markup.row_width = 2
-    regions_history_markup.add(InlineKeyboardButton("Автобусные туры", callback_data="buss"),
-                               InlineKeyboardButton("Сплавы", callback_data="boats"),
-                               InlineKeyboardButton("Кемпинг", callback_data="camping"),
-                               InlineKeyboardButton("Пешие походы", callback_data="foot"),
-                               InlineKeyboardButton("Детские лагеря", callback_data="kids_camps"),
-                               InlineKeyboardButton("Что-то ещё", callback_data="something_else"))
+    regions_history_markup.add(InlineKeyboardButton(organized_category_name[0], callback_data=organized_category_tag[0]),
+                               InlineKeyboardButton(organized_category_name[1], callback_data=organized_category_tag[1]),
+                               InlineKeyboardButton(organized_category_name[2], callback_data=organized_category_tag[2]),
+                               InlineKeyboardButton(organized_category_name[3], callback_data=organized_category_tag[3]),
+                               InlineKeyboardButton(organized_category_name[4], callback_data=organized_category_tag[4]),
+                               InlineKeyboardButton(organized_category_name[5], callback_data=organized_category_tag[5]))
     return regions_history_markup
 
 
