@@ -5,8 +5,8 @@ from telebot import types
 from telebot.types import InlineKeyboardButton
 
 from callback_functions import region_func, category_self_func
-from data_manage import manageDataCreate, manageDataCategory, manageDataRegion, getCategory, getRegion, getNum, \
-    manageDataNum
+from data_manage import manage_data_create, manage_data_category, manage_data_region, get_category, get_region, get_num, \
+    manage_data_num
 from constants import category_tag, category_name, organized_category_tag, regions_tag, regions_name
 
 from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard, \
@@ -23,7 +23,7 @@ bot = telebot.TeleBot('6626087162:AAF6F3D2K1v20M-FWiLrcyOPkCvuPgADgnU')
 def handle_start(message):
     user_name = message.from_user.username
     user_id = message.from_user.id
-    manageDataCreate(user_id)
+    manage_data_create(user_id)
     keyboard = types.ReplyKeyboardMarkup(row_width=1)
     show_ways_button = types.KeyboardButton('Показать маршруты')
     keyboard.add(show_ways_button)
@@ -40,9 +40,9 @@ def handle_start(message):
 @bot.message_handler(func=lambda message: message.text == 'Показать маршруты')
 def handle_button(message):
     user_id = message.from_user.id
-    category = getCategory(user_id)
-    region = getRegion(user_id)
-    num = getNum(user_id)
+    category = get_category(user_id)
+    region = get_region(user_id)
+    num = get_num(user_id)
 
     file = open(path_self + category + '/' + region + '/' + num + '/description.txt', 'r', encoding='utf-8')
     text = file.read()
@@ -141,12 +141,12 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "В следующих обновлениях")
     elif call.data == "next":
         user_id = call.from_user.id
-        category = getCategory(user_id)
-        region = getRegion(user_id)
-        num = getNum(user_id)
+        category = get_category(user_id)
+        region = get_region(user_id)
+        num = get_num(user_id)
         sting_text = path_self + category + '/' + region + '/' + str(int(num)+1)
         if Path(sting_text).exists():
-            manageDataNum(user_id, str(int(num)+1))
+            manage_data_num(user_id, str(int(num) + 1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
             file.close()
@@ -164,12 +164,12 @@ def callback_query(call):
             bot.answer_callback_query(call.id, "Больше маршрутов нет")
     elif call.data == "previous":
         user_id = call.from_user.id
-        category = getCategory(user_id)
-        region = getRegion(user_id)
-        num = getNum(user_id)
+        category = get_category(user_id)
+        region = get_region(user_id)
+        num = get_num(user_id)
         sting_text = path_self + category + '/' + region + '/' + str(int(num)-1)
         if Path(sting_text).exists():
-            manageDataNum(user_id, str(int(num)-1))
+            manage_data_num(user_id, str(int(num) - 1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
             file.close()
