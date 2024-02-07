@@ -14,8 +14,10 @@ from keyboards import start_inline_keyboard, category_inline_keyboard, regions_i
 from strings import hello_string_part_one, hello_string_part_two, category_string, category_string_org, path_self
 
 # Создание экземпляра бота с указанием токена вашего бота
-bot = telebot.TeleBot('6626087162:AAF6F3D2K1v20M-FWiLrcyOPkCvuPgADgnU')
-# bot = telebot.TeleBot('6888336081:AAEg1B_b9_iDKQEdvNdoOOPAfUPbR0_vtWw')
+file = open('BotKey')
+bot_key = file.read()
+file.close()
+bot = telebot.TeleBot(bot_key)
 
 
 # Обработка команды /start
