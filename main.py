@@ -14,7 +14,7 @@ from keyboards import start_inline_keyboard, category_inline_keyboard, way_keybo
 from strings import start_string, category_string, category_string_org, path_self, path_org
 
 # Создание экземпляра бота с указанием токена вашего бота
-bot = telebot.TeleBot('6626087162:AAF6F3D2K1v20M-FWiLrcyOPkCvuPgADgnU')
+bot = telebot.TeleBot('no')
 
 
 # Обработка команды /start
