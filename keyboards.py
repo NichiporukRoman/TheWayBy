@@ -3,12 +3,11 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from constants import category_tag, category_name, regions_name, regions_tag, organized_category_name, \
     organized_category_tag
 
-
+#, InlineKeyboardButton("Организованные туры", callback_data="organized_travelling")
 def start_inline_keyboard():
     markup = InlineKeyboardMarkup()
     markup.row_width = 1
-    markup.add(InlineKeyboardButton("Самостоятельные поездки", callback_data="self_travelling"),
-               InlineKeyboardButton("Организованные туры", callback_data="organized_travelling"))
+    markup.add(InlineKeyboardButton("Самостоятельные поездки", callback_data="self_travelling"))
     return markup
 
 
@@ -63,3 +62,13 @@ def way_keyboard(to_way):
                         InlineKeyboardButton("Следующий маршрут", callback_data="next"),
                         to_way)
     return category_markup
+
+
+def way_keyboard_org(to_site):
+    category_markup = InlineKeyboardMarkup()
+    category_markup.row_width = 2
+    category_markup.add(InlineKeyboardButton("Предыдущий маршрут", callback_data="previous_org"),
+                        InlineKeyboardButton("Следующий маршрут", callback_data="next_org"),
+                        to_site)
+    return category_markup
+

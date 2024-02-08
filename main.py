@@ -5,60 +5,84 @@ from telebot import types
 from telebot.types import InlineKeyboardButton
 
 from callback_functions import region_func, category_self_func
-from data_manage import manage_data_create, manage_data_category, manage_data_region, get_category, get_region, get_num, \
-    manage_data_num
+from data_manage import manage_data_create, get_category, get_region, get_num, \
+    manage_data_num, get_num_org
 from constants import category_tag, category_name, organized_category_tag, regions_tag, regions_name
 
-from keyboards import start_inline_keyboard, category_inline_keyboard, regions_inline_keyboard, way_keyboard, \
-    organized_inline_keyboard
-from strings import hello_string_part_one, hello_string_part_two, category_string, category_string_org, path_self
+from keyboards import start_inline_keyboard, category_inline_keyboard, way_keyboard, \
+    organized_inline_keyboard, way_keyboard_org
+from strings import start_string, category_string, category_string_org, path_self, path_org
 
 # Создание экземпляра бота с указанием токена вашего бота
-file = open('BotKey')
-bot_key = file.read()
-file.close()
-bot = telebot.TeleBot(bot_key)
+bot = telebot.TeleBot('6626087162:AAF6F3D2K1v20M-FWiLrcyOPkCvuPgADgnU')
 
 
 # Обработка команды /start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    user_name = message.from_user.username
     user_id = message.from_user.id
     manage_data_create(user_id)
     keyboard = types.ReplyKeyboardMarkup(row_width=1)
-    show_ways_button = types.KeyboardButton('Показать маршруты')
-    keyboard.add(show_ways_button)
+    show_ways_button_self = types.KeyboardButton('Показать маршруты для самостоятельной поездки')
+    show_ways_button_org = types.KeyboardButton('Показать маршруты организованные')
+    keyboard.add(show_ways_button_self)
+    keyboard.add(show_ways_button_org)
+    photo = open('start.png', 'rb')
 
     # Отправляем сообщение с клавиатурой
-    bot.send_message(message.chat.id,'Загружаемся', reply_markup=keyboard)
-    bot.send_message(message.chat.id,
-                     hello_string_part_one + '@' + user_name + hello_string_part_two,
-                     parse_mode='Markdown',
-                     reply_markup=start_inline_keyboard())
+    bot.send_message(message.chat.id, 'Загружаемся', reply_markup=keyboard)
+    bot.send_photo(message.chat.id,
+                   photo=photo,
+                   caption=start_string,
+                   parse_mode='Markdown',
+                   reply_markup=start_inline_keyboard())
 
 
 # Обработчик нажатия на кнопку
-@bot.message_handler(func=lambda message: message.text == 'Показать маршруты')
-def handle_button(message):
+@bot.message_handler(func=lambda message: message.text == 'Показать маршруты для самостоятельной поездки')
+def handle_button_self(message):
     user_id = message.from_user.id
     category = get_category(user_id)
-    region = get_region(user_id)
     num = get_num(user_id)
+    if Path(path_self + category).exists():
+        file = open(path_self + category + '/' + num + '/description.txt', 'r', encoding='utf-8')
+        text = file.read()
+        file.close()
+        photo = open(path_self + category + '/' + num + '/picture.png', 'rb')
+        file = open(path_self + category + '/' + num + '/link.txt', 'r')
+        link = file.read()
+        file.close()
+        bot.send_photo(chat_id=message.chat.id,
+                       photo=photo,
+                       parse_mode='Markdown',
+                       caption=text,
+                       reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
+        photo.close()
+    else:
+        bot.send_message(message.chat.id, "Маршруты не найдены")
 
-    file = open(path_self + category + '/' + region + '/' + num + '/description.txt', 'r', encoding='utf-8')
-    text = file.read()
-    file.close()
-    photo = open(path_self + category + '/' + region + '/' + num + '/picture.png', 'rb')
-    file = open(path_self + category + '/' + region + '/' + num + '/link.txt', 'r')
-    link = file.read()
-    file.close()
-    bot.send_photo(chat_id=message.chat.id,
-                   photo=photo,
-                   parse_mode='Markdown',
-                   caption=text,
-                   reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
-    photo.close()
+
+@bot.message_handler(func=lambda message: message.text == 'Показать маршруты организованные')
+def handle_button_org(message):
+    user_id = message.from_user.id
+    num = get_num_org(user_id)
+    if Path(path_org + num).exists():
+        file = open(path_org + num + '/description.txt', 'r', encoding='utf-8')
+        text = file.read()
+        file.close()
+        photo = open(path_org + num + '/picture.png', 'rb')
+        file = open(path_org + num + '/link.txt', 'r')
+        link = file.read()
+        file.close()
+        bot.send_photo(chat_id=message.chat.id,
+                       photo=photo,
+                       parse_mode='Markdown',
+                       caption=text,
+                       reply_markup=way_keyboard_org(InlineKeyboardButton("Связаться", url=link)))
+        photo.close()
+    else:
+        bot.send_message(message.chat.id, "Маршруты не найдены")
+
 
 # Обработка команды /review
 @bot.message_handler(commands=['review'])
@@ -79,13 +103,9 @@ def callback_query(call):
                          reply_markup=category_inline_keyboard())
     elif call.data == "organized_travelling":
         bot.answer_callback_query(call.id, "Переходим")
-        bot.send_message(call.message.chat.id,
-                         category_string_org,
-                         parse_mode='Markdown',
-                         reply_markup=organized_inline_keyboard())
+
 
 # Обработка клавиатуры category_inline_keyboard
-
     elif call.data == category_tag[0]:
         category_self_func(bot, call, category_name[0], category_tag[0])
 
@@ -122,8 +142,8 @@ def callback_query(call):
     elif call.data == category_tag[11]:
         category_self_func(bot, call, category_name[11], category_tag[11])
 
-# Обработка клавиатуры region_inline_keyboard
 
+# Обработка клавиатуры region_inline_keyboard
     elif call.data == regions_tag[0]:
         region_func(bot, call, regions_name[0], regions_tag[0])
     elif call.data == regions_tag[1]:
@@ -144,10 +164,10 @@ def callback_query(call):
     elif call.data == "next":
         user_id = call.from_user.id
         category = get_category(user_id)
-        region = get_region(user_id)
         num = get_num(user_id)
-        sting_text = path_self + category + '/' + region + '/' + str(int(num)+1)
+        sting_text = path_self + category + '/' + str(int(num)+1)
         if Path(sting_text).exists():
+            bot.delete_message(call.message.chat.id, call.message.message_id)
             manage_data_num(user_id, str(int(num) + 1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
@@ -164,14 +184,14 @@ def callback_query(call):
             photo.close()
         else:
             bot.answer_callback_query(call.id, "Больше маршрутов нет")
-    elif call.data == "previous":
+
+    elif call.data == "next_org":
         user_id = call.from_user.id
-        category = get_category(user_id)
-        region = get_region(user_id)
-        num = get_num(user_id)
-        sting_text = path_self + category + '/' + region + '/' + str(int(num)-1)
+        num = get_num_org(user_id)
+        sting_text = path_org + str(int(num)+1)
         if Path(sting_text).exists():
-            manage_data_num(user_id, str(int(num) - 1))
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            manage_data_num(user_id, str(int(num) + 1))
             file = open(sting_text + '/link.txt', 'r')
             link = file.read()
             file.close()
@@ -183,7 +203,53 @@ def callback_query(call):
                            photo=photo,
                            parse_mode='Markdown',
                            caption=text,
+                           reply_markup=way_keyboard_org(InlineKeyboardButton("Связаться", url=link)))
+            photo.close()
+        else:
+            bot.answer_callback_query(call.id, "Больше маршрутов нет")
+    elif call.data == "previous":
+        user_id = call.from_user.id
+        category = get_category(user_id)
+        num = get_num(user_id)
+        sting_text = path_self + category + '/' + str(int(num)-1)
+        if Path(sting_text).exists():
+            manage_data_num(user_id, str(int(num) - 1))
+            file = open(sting_text + '/link.txt', 'r')
+            link = file.read()
+            file.close()
+            file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
+            text = file.read()
+            file.close()
+            photo = open(sting_text + '/picture.png', 'rb')
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.send_photo(chat_id=call.message.chat.id,
+                           photo=photo,
+                           parse_mode='Markdown',
+                           caption=text,
                            reply_markup=way_keyboard(InlineKeyboardButton("В Путь", url=link)))
+            photo.close()
+        else:
+            bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
+
+    elif call.data == "previous_org":
+        user_id = call.from_user.id
+        num = get_num(user_id)
+        sting_text = path_org + str(int(num)-1)
+        if Path(sting_text).exists():
+            manage_data_num(user_id, str(int(num) - 1))
+            file = open(sting_text + '/link.txt', 'r')
+            link = file.read()
+            file.close()
+            file = open(sting_text + '/description.txt', 'r', encoding='utf-8')
+            text = file.read()
+            file.close()
+            photo = open(sting_text + '/picture.png', 'rb')
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.send_photo(chat_id=call.message.chat.id,
+                           photo=photo,
+                           parse_mode='Markdown',
+                           caption=text,
+                           reply_markup=way_keyboard_org(InlineKeyboardButton("Связаться", url=link)))
             photo.close()
         else:
             bot.answer_callback_query(call.id, "Вы уже на первом маршруте")
