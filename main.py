@@ -2,38 +2,32 @@ from pathlib import Path
 
 import telebot
 from telebot import types
-from telebot.types import InlineKeyboardButton
+from callback_functions import *
+from data_manage_libs.data_manage import *
+from keyboards import *
+from data_manage_libs.messages_manage import *
 
-from callback_functions import region_func, category_self_func
-from data_manage import manage_data_create, get_category, get_region, get_num, \
-    manage_data_num, get_num_org
-from constants import category_tag, category_name, organized_category_tag, regions_tag, regions_name
-
-from keyboards import start_inline_keyboard, category_inline_keyboard, way_keyboard, \
-    organized_inline_keyboard, way_keyboard_org
-from strings import start_string, category_string, category_string_org, path_self, path_org
-
-# Создание экземпляра бота с указанием токена вашего бота
-bot = telebot.TeleBot('no')
+bot = telebot.TeleBot('6888336081:AAEg1B_b9_iDKQEdvNdoOOPAfUPbR0_vtWw')
 
 
-# Обработка команды /start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     user_id = message.from_user.id
     manage_data_create(user_id)
+
     keyboard = types.ReplyKeyboardMarkup(row_width=1)
     show_ways_button_self = types.KeyboardButton('Показать маршруты для самостоятельной поездки')
     show_ways_button_org = types.KeyboardButton('Показать маршруты организованные')
     keyboard.add(show_ways_button_self)
     keyboard.add(show_ways_button_org)
-    photo = open('start.png', 'rb')
 
-    # Отправляем сообщение с клавиатурой
+    photo = open('start.png', 'rb')
+    start_message = read_message('start_message.txt')
+
     bot.send_message(message.chat.id, 'Загружаемся', reply_markup=keyboard)
     bot.send_photo(message.chat.id,
                    photo=photo,
-                   caption=start_string,
+                   caption=start_message,
                    parse_mode='Markdown',
                    reply_markup=start_inline_keyboard())
 
@@ -44,12 +38,12 @@ def handle_button_self(message):
     user_id = message.from_user.id
     category = get_category(user_id)
     num = get_num(user_id)
-    if Path(path_self + category).exists():
-        file = open(path_self + category + '/' + num + '/description.txt', 'r', encoding='utf-8')
+    if Path('data/travel_ways_data/self_travelling_data/' + category).exists():
+        file = open('data/travel_ways_data/self_travelling_data/' + category + '/' + num + '/description.txt', 'r', encoding='utf-8')
         text = file.read()
         file.close()
-        photo = open(path_self + category + '/' + num + '/picture.png', 'rb')
-        file = open(path_self + category + '/' + num + '/link.txt', 'r')
+        photo = open('data/travel_ways_data/self_travelling_data/' + category + '/' + num + '/picture.png', 'rb')
+        file = open('data/travel_ways_data/self_travelling_data/' + category + '/' + num + '/link.txt', 'r')
         link = file.read()
         file.close()
         bot.send_photo(chat_id=message.chat.id,
@@ -66,12 +60,12 @@ def handle_button_self(message):
 def handle_button_org(message):
     user_id = message.from_user.id
     num = get_num_org(user_id)
-    if Path(path_org + num).exists():
-        file = open(path_org + num + '/description.txt', 'r', encoding='utf-8')
+    if Path('data/travel_ways_data/self_travelling_data/' + num).exists():
+        file = open('data/travel_ways_data/self_travelling_data/' + num + '/description.txt', 'r', encoding='utf-8')
         text = file.read()
         file.close()
-        photo = open(path_org + num + '/picture.png', 'rb')
-        file = open(path_org + num + '/link.txt', 'r')
+        photo = open('data/travel_ways_data/self_travelling_data/' + num + '/picture.png', 'rb')
+        file = open('data/travel_ways_data/self_travelling_data/' + num + '/link.txt', 'r')
         link = file.read()
         file.close()
         bot.send_photo(chat_id=message.chat.id,
@@ -97,8 +91,9 @@ def handle_review(message):
 def callback_query(call):
     if call.data == "self_travelling":
         bot.answer_callback_query(call.id, "Переходим")
+        category_message = read_message('category_message.txt')
         bot.send_message(call.message.chat.id,
-                         category_string,
+                         category_message,
                          parse_mode='Markdown',
                          reply_markup=category_inline_keyboard())
     elif call.data == "organized_travelling":
@@ -165,7 +160,7 @@ def callback_query(call):
         user_id = call.from_user.id
         category = get_category(user_id)
         num = get_num(user_id)
-        sting_text = path_self + category + '/' + str(int(num)+1)
+        sting_text = 'data/travel_ways_data/self_travelling_data/' + category + '/' + str(int(num)+1)
         if Path(sting_text).exists():
             bot.delete_message(call.message.chat.id, call.message.message_id)
             manage_data_num(user_id, str(int(num) + 1))
@@ -188,7 +183,7 @@ def callback_query(call):
     elif call.data == "next_org":
         user_id = call.from_user.id
         num = get_num_org(user_id)
-        sting_text = path_org + str(int(num)+1)
+        sting_text = 'data/travel_ways_data/self_travelling_data/' + str(int(num)+1)
         if Path(sting_text).exists():
             bot.delete_message(call.message.chat.id, call.message.message_id)
             manage_data_num(user_id, str(int(num) + 1))
@@ -211,7 +206,7 @@ def callback_query(call):
         user_id = call.from_user.id
         category = get_category(user_id)
         num = get_num(user_id)
-        sting_text = path_self + category + '/' + str(int(num)-1)
+        sting_text = 'data/travel_ways_data/self_travelling_data/' + category + '/' + str(int(num)-1)
         if Path(sting_text).exists():
             manage_data_num(user_id, str(int(num) - 1))
             file = open(sting_text + '/link.txt', 'r')
@@ -234,7 +229,7 @@ def callback_query(call):
     elif call.data == "previous_org":
         user_id = call.from_user.id
         num = get_num(user_id)
-        sting_text = path_org + str(int(num)-1)
+        sting_text = 'data/travel_ways_data/self_travelling_data/' + str(int(num)-1)
         if Path(sting_text).exists():
             manage_data_num(user_id, str(int(num) - 1))
             file = open(sting_text + '/link.txt', 'r')

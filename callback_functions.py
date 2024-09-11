@@ -1,6 +1,4 @@
-from data_manage import manage_data_region, manage_data_category, manage_data_category_org, manage_data_num
-from keyboards import regions_inline_keyboard, organized_inline_keyboard
-from strings import category_string, regions_string
+from data_manage_libs.data_manage import manage_data_region, manage_data_category, manage_data_category_org, manage_data_num
 
 
 def region_func(bot, call, name, tag):

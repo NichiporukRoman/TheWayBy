@@ -4,45 +4,45 @@ from constants import category_tag, regions_tag, organized_category_tag, organiz
 
 
 def manage_data_category(id, category):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('self_travelling').find('category').text = category
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_region(id, region):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('self_travelling').find('region').text = region
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_num(id, num):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('self_travelling').find('num').text = num
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_category_org(id, category):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('org_travelling').find('category').text = category
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_extra(id, extra):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('org_travelling').find('extra').text = extra
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_num_org(id, num):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     root.find('org_travelling').find('num').text = num
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def manage_data_create(id):
@@ -67,46 +67,46 @@ def manage_data_create(id):
     org_num_new.text = '1'
 
     tree = ET.ElementTree(root)
-    tree.write('Data/' + str(id) + '.xml')
+    tree.write('data/user_data/' + str(id) + '.xml')
 
 
 def get_category(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     category_old = root.find('self_travelling').find('category').text
     return category_old
 
 
 def get_region(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     region_old = root.find('self_travelling').find('region').text
     return region_old
 
 
 def get_num(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     num_old = root.find('self_travelling').find('num').text
     return num_old
 
 
 def get_category_org(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     category_old = root.find('org_travelling').find('category').text
     return category_old
 
 
 def get_extra(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     region_old = root.find('org_travelling').find('extra').text
     return region_old
 
 
 def get_num_org(id):
-    tree = ET.ElementTree(file='Data/' + str(id) + '.xml')
+    tree = ET.ElementTree(file='data/user_data/' + str(id) + '.xml')
     root = tree.getroot()
     num_old = root.find('org_travelling').find('num').text
     return num_old
